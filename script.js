@@ -853,43 +853,87 @@ function updateChatStatus() {
 
 async function getOrCreateConversation() {
 
-    const myId =
-        currentUser.id;
+    if (!currentUser || !currentFriend) {
+        console.error("Missing user or friend.");
+        return;
+    }
 
-    const friendId =
-        currentFriend.id;
+    const myId = currentUser.id;
+    const friendId = currentFriend.id;
+
+    console.log("Creating/finding conversation...");
+    console.log("My ID:", myId);
+    console.log("Friend ID:", friendId);
+
+
+    // First look for a conversation where
+    // I am user1 and friend is user2
 
     let { data, error } =
         await supabase
             .from("conversations")
             .select("*")
-            .or(
-                `and(user1.eq.${myId},user2.eq.${friendId}),and(user1.eq.${friendId},user2.eq.${myId})`
-            )
-            .limit(1);
+            .eq("user1", myId)
+            .eq("user2", friendId)
+            .maybeSingle();
+
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Error checking conversation:",
+            error
+        );
 
         return;
     }
 
-    if (
-        data &&
-        data.length > 0
-    ) {
+
+    // If it doesn't exist, check the opposite direction
+
+    if (!data) {
+
+        const result =
+            await supabase
+                .from("conversations")
+                .select("*")
+                .eq("user1", friendId)
+                .eq("user2", myId)
+                .maybeSingle();
+
+        if (result.error) {
+
+            console.error(
+                "Error checking reverse conversation:",
+                result.error
+            );
+
+            return;
+        }
+
+        data = result.data;
+    }
+
+
+    // Conversation already exists
+
+    if (data) {
+
+        console.log(
+            "Conversation found:",
+            data
+        );
 
         currentConversation =
-            data[0];
+            data;
 
         return;
     }
 
-    const {
-        data: newConversation,
-        error: createError
-    } =
+
+    // Create a new conversation
+
+    const result =
         await supabase
             .from("conversations")
             .insert({
@@ -899,15 +943,30 @@ async function getOrCreateConversation() {
             .select()
             .single();
 
-    if (createError) {
 
-        console.error(createError);
+    if (result.error) {
+
+        console.error(
+            "ERROR CREATING CONVERSATION:",
+            result.error
+        );
+
+        alert(
+            "Could not create the conversation. Check the browser console."
+        );
 
         return;
     }
 
+
     currentConversation =
-        newConversation;
+        result.data;
+
+
+    console.log(
+        "Conversation created:",
+        currentConversation
+    );
 }
 
 
