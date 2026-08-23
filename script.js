@@ -355,6 +355,8 @@ async function addFriend() {
 
 async function loadFriends() {
 
+    console.log("LOAD FRIENDS STARTED");
+
     friendsList.innerHTML = "";
 
     const { data, error } =
