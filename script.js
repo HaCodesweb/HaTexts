@@ -357,27 +357,80 @@ async function loadFriends() {
 
     friendsList.innerHTML = "";
 
-    const { data, error } =
+    // Get everyone who is allowed to use the chat
+    const { data: allowedUsers, error: allowedError } =
         await supabase
             .from("allowed_users")
-            .select("email, created_at")
+            .select("email")
             .order("created_at");
 
-    if (error) {
+    if (allowedError) {
 
-        console.error(error);
+        console.error(allowedError);
 
         return;
     }
 
-    for (const friend of data) {
 
-        if (
-            friend.email.toLowerCase() ===
-            currentUser.email.toLowerCase()
-        ) {
+    // Get all profiles
+    const { data: profiles, error: profilesError } =
+        await supabase
+            .from("profiles")
+            .select("email, is_admin");
+
+    if (profilesError) {
+
+        console.error(profilesError);
+
+        return;
+    }
+
+
+    // Create list of allowed emails
+    const allowedEmails =
+        new Set(
+            allowedUsers.map(user =>
+                user.email.toLowerCase()
+            )
+        );
+
+
+    // Add the admin to the list
+    const adminProfiles =
+        profiles.filter(profile =>
+            profile.is_admin === true
+        );
+
+
+    for (const admin of adminProfiles) {
+
+        allowedEmails.add(
+            admin.email.toLowerCase()
+        );
+    }
+
+
+    // Remove yourself
+    allowedEmails.delete(
+        currentUser.email.toLowerCase()
+    );
+
+
+    // Create friend cards
+    for (const email of allowedEmails) {
+
+        const profile =
+            profiles.find(
+                p =>
+                    p.email.toLowerCase() ===
+                    email
+            );
+
+
+        if (!profile) {
             continue;
         }
+
 
         const div =
             document.createElement("div");
@@ -395,22 +448,22 @@ async function loadFriends() {
             "friend-name";
 
         name.textContent =
-            friend.email.split("@")[0];
+            profile.email.split("@")[0];
 
 
-        // Email
+        // Friend email
 
-        const email =
+        const emailElement =
             document.createElement("div");
 
-        email.className =
+        emailElement.className =
             "friend-email";
 
-        email.textContent =
-            friend.email;
+        emailElement.textContent =
+            profile.email;
 
 
-        // Status
+        // Online status
 
         const status =
             document.createElement("div");
@@ -420,11 +473,11 @@ async function loadFriends() {
 
         updateFriendStatus(
             status,
-            friend.email
+            profile.email
         );
 
 
-        // Unread badge
+        // Unread messages
 
         const unread =
             document.createElement("span");
@@ -433,17 +486,19 @@ async function loadFriends() {
             "unread-badge";
 
         unread.dataset.email =
-            friend.email;
+            profile.email;
 
         updateUnreadBadge(
             unread,
-            friend.email
+            profile.email
         );
 
 
         div.appendChild(name);
 
-        div.appendChild(email);
+        div.appendChild(
+            emailElement
+        );
 
         div.appendChild(status);
 
@@ -451,11 +506,13 @@ async function loadFriends() {
 
 
         // Admin remove button
+        // Only YOUR account gets this
 
         if (
             !adminPanel.classList.contains(
                 "hidden"
-            )
+            ) &&
+            !profile.is_admin
         ) {
 
             const removeButton =
@@ -467,18 +524,24 @@ async function loadFriends() {
             removeButton.className =
                 "remove-friend";
 
+
             removeButton.addEventListener(
                 "click",
                 async event => {
 
                     event.stopPropagation();
 
+
                     const confirmed =
                         confirm(
-                            `Remove ${friend.email}?`
+                            `Remove ${profile.email}?`
                         );
 
-                    if (!confirmed) return;
+
+                    if (!confirmed) {
+                        return;
+                    }
+
 
                     const { error } =
                         await supabase
@@ -486,12 +549,15 @@ async function loadFriends() {
                             .delete()
                             .eq(
                                 "email",
-                                friend.email
+                                profile.email
                             );
+
 
                     if (error) {
 
-                        console.error(error);
+                        console.error(
+                            error
+                        );
 
                         alert(
                             "Could not remove friend."
@@ -500,9 +566,11 @@ async function loadFriends() {
                         return;
                     }
 
+
                     await loadFriends();
                 }
             );
+
 
             div.appendChild(
                 removeButton
@@ -514,8 +582,11 @@ async function loadFriends() {
 
         div.addEventListener(
             "click",
-            () => openFriend(friend.email)
+            () => openFriend(
+                profile.email
+            )
         );
+
 
         friendsList.appendChild(div);
     }
