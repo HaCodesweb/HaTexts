@@ -865,10 +865,6 @@ async function getOrCreateConversation() {
     console.log("My ID:", myId);
     console.log("Friend ID:", friendId);
 
-
-    // First look for a conversation where
-    // I am user1 and friend is user2
-
     let { data, error } =
         await supabase
             .from("conversations")
@@ -877,19 +873,13 @@ async function getOrCreateConversation() {
             .eq("user2", friendId)
             .maybeSingle();
 
-
     if (error) {
-
         console.error(
             "Error checking conversation:",
             error
         );
-
         return;
     }
-
-
-    // If it doesn't exist, check the opposite direction
 
     if (!data) {
 
@@ -902,20 +892,15 @@ async function getOrCreateConversation() {
                 .maybeSingle();
 
         if (result.error) {
-
             console.error(
                 "Error checking reverse conversation:",
                 result.error
             );
-
             return;
         }
 
         data = result.data;
     }
-
-
-    // Conversation already exists
 
     if (data) {
 
@@ -924,14 +909,9 @@ async function getOrCreateConversation() {
             data
         );
 
-        currentConversation =
-            data;
-
+        currentConversation = data;
         return;
     }
-
-
-    // Create a new conversation
 
     const result =
         await supabase
@@ -942,7 +922,6 @@ async function getOrCreateConversation() {
             })
             .select()
             .single();
-
 
     if (result.error) {
 
@@ -958,17 +937,13 @@ async function getOrCreateConversation() {
         return;
     }
 
-
-    currentConversation =
-        result.data;
-
+    currentConversation = result.data;
 
     console.log(
         "Conversation created:",
         currentConversation
     );
 }
-
 
 // =========================
 // LOAD MESSAGES
