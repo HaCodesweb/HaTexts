@@ -251,7 +251,11 @@ async function startApp(user) {
 
     await checkAdmin();
 
+    console.log("ABOUT TO LOAD FRIENDS");
+
     await loadFriends();
+
+    console.log("FRIENDS FINISHED LOADING");
 
     startPresence();
 }
