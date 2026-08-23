@@ -1,0 +1,688 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #0b0b0b;
+    color: white;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+.auth-container {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+
+    padding: 40px;
+
+    background: #151515;
+
+    border:
+        1px solid #292929;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 25px 80px
+        rgba(0, 0, 0, 0.6);
+}
+
+.logo {
+    text-align: center;
+    font-size: 48px;
+}
+
+.auth-card h1 {
+    text-align: center;
+    margin: 10px 0 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+
+    padding: 14px;
+
+    border:
+        1px solid #303030;
+
+    border-radius: 10px;
+
+    background: #202020;
+
+    color: white;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+input:focus {
+    border-color: #555;
+}
+
+.auth-card input {
+    margin-bottom: 10px;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+}
+
+.primary-button {
+    width: 100%;
+
+    padding: 14px;
+
+    background: white;
+    color: black;
+
+    margin-top: 5px;
+}
+
+.secondary-button {
+    width: 100%;
+
+    padding: 14px;
+
+    background: #292929;
+    color: white;
+
+    margin-top: 8px;
+}
+
+#auth-message {
+    text-align: center;
+    color: #aaa;
+
+    min-height: 20px;
+}
+
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 330px;
+    min-width: 330px;
+
+    background: #151515;
+
+    border-right:
+        1px solid #292929;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 18px;
+
+    border-bottom:
+        1px solid #292929;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-icon {
+    font-size: 25px;
+}
+
+.sidebar-header h1 {
+    margin: 0;
+
+    font-size: 18px;
+}
+
+#user-email {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #666;
+
+    font-size: 11px;
+
+    max-width: 210px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.icon-button {
+    width: 38px;
+    height: 38px;
+
+    background: #292929;
+
+    color: white;
+
+    font-size: 18px;
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+.admin-panel {
+    padding: 15px;
+
+    border-bottom:
+        1px solid #292929;
+}
+
+.admin-title {
+    font-size: 13px;
+
+    color: #aaa;
+
+    margin-bottom: 9px;
+}
+
+.add-friend {
+    display: flex;
+    gap: 7px;
+}
+
+.add-friend input {
+    margin: 0;
+}
+
+.add-friend button {
+    width: 45px;
+
+    background: white;
+
+    color: black;
+
+    font-size: 22px;
+}
+
+#admin-message {
+    margin: 7px 0 0;
+
+    font-size: 12px;
+
+    color: #777;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box {
+    padding: 12px 15px;
+}
+
+.search-box input {
+    margin: 0;
+
+    background: #1f1f1f;
+}
+
+
+/* =========================
+   FRIENDS
+========================= */
+
+.friends-section {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 0 10px 10px;
+}
+
+.section-title {
+    padding: 8px;
+
+    color: #666;
+
+    text-transform: uppercase;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+.friend {
+    position: relative;
+
+    padding: 12px;
+
+    margin-bottom: 3px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+.friend:hover {
+    background: #222;
+}
+
+.friend.active {
+    background: #292929;
+}
+
+.friend-name {
+    font-weight: bold;
+
+    font-size: 14px;
+}
+
+.friend-email {
+    margin-top: 3px;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+.friend-status {
+    color: #666;
+
+    font-size: 10px;
+}
+
+.remove-friend {
+    position: absolute;
+
+    right: 8px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    padding: 5px 8px;
+
+    background: #292929;
+
+    color: #999;
+
+    font-size: 11px;
+}
+
+.remove-friend:hover {
+    background: #444;
+    color: white;
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+.chat {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+}
+
+.no-chat {
+    margin: auto;
+
+    text-align: center;
+
+    color: #777;
+}
+
+.no-chat-icon {
+    font-size: 60px;
+}
+
+.no-chat h2 {
+    color: white;
+}
+
+
+/* =========================
+   CHAT WINDOW
+========================= */
+
+.chat-window {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.chat-header {
+    height: 70px;
+
+    padding: 12px 20px;
+
+    border-bottom:
+        1px solid #292929;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.chat-avatar {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #292929;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-header h2 {
+    margin: 0;
+
+    font-size: 17px;
+}
+
+#chat-status {
+    color: #666;
+
+    font-size: 11px;
+}
+
+.back-button {
+    display: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 24px;
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
+#messages {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 25px;
+}
+
+.message {
+    max-width: 70%;
+
+    padding: 10px 13px;
+
+    margin-bottom: 9px;
+
+    background: #252525;
+
+    border-radius: 14px;
+
+    width: fit-content;
+
+    word-break: break-word;
+}
+
+.message.mine {
+    margin-left: auto;
+
+    background: #444;
+
+    border-bottom-right-radius: 4px;
+}
+
+.message:not(.mine) {
+    border-bottom-left-radius: 4px;
+}
+
+.message-time {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #777;
+
+    font-size: 9px;
+}
+
+
+/* =========================
+   MESSAGE INPUT
+========================= */
+
+.message-box {
+    display: flex;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    border-top:
+        1px solid #292929;
+}
+
+.message-box input {
+    margin: 0;
+}
+
+.message-box button {
+    width: 52px;
+
+    background: white;
+
+    color: black;
+
+    font-size: 17px;
+}
+
+
+/* =========================
+   IPAD / MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .chat {
+        display: none;
+    }
+
+    .app.chat-open .sidebar {
+        display: none;
+    }
+
+    .app.chat-open .chat {
+        display: flex;
+    }
+
+    .back-button {
+        display: block;
+    }
+
+    .admin-panel {
+        padding: 10px 12px;
+    }
+
+    .friends-section {
+        padding: 0 8px 8px;
+    }
+
+    .friend {
+        padding: 14px;
+    }
+
+    .message {
+        max-width: 82%;
+    }
+
+    #messages {
+        padding: 15px;
+    }
+}
+
+/* =========================
+   ONLINE STATUS
+========================= */
+
+.friend-status {
+    margin-top: 4px;
+    font-size: 10px;
+    color: #666;
+}
+
+.friend-status.online {
+    color: #5ee68a;
+}
+
+#chat-status.online {
+    color: #5ee68a;
+}
+
+
+/* =========================
+   UNREAD BADGE
+========================= */
+
+.unread-badge {
+    display: none;
+
+    position: absolute;
+
+    right: 10px;
+    top: 12px;
+
+    min-width: 20px;
+    height: 20px;
+
+    padding: 0 6px;
+
+    border-radius: 10px;
+
+    background: white;
+    color: black;
+
+    font-size: 10px;
+    font-weight: bold;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.unread-badge.show {
+    display: flex;
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
+.admin-panel {
+    background: #111;
+}
+
+.admin-title {
+    font-weight: bold;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .sidebar-header {
+        padding: 15px;
+    }
+
+    .chat-header {
+        padding: 10px 15px;
+    }
+
+    .message-box {
+        padding:
+            10px;
+    }
+
+    .message-box input {
+        font-size: 16px;
+    }
+
+    .message-box button {
+        min-width: 50px;
+    }
+}

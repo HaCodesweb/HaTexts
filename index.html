@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>School Chat</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+
+    <section id="auth-section" class="auth-container">
+
+        <div class="auth-card">
+
+            <div class="logo">
+                💬
+            </div>
+
+            <h1>School Chat</h1>
+
+            <p class="subtitle">
+                Private messaging for your friends
+            </p>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email"
+                autocomplete="email"
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                autocomplete="current-password"
+            >
+
+            <button
+                id="login"
+                class="primary-button">
+                Log in
+            </button>
+
+            <button
+                id="signup"
+                class="secondary-button">
+                Create account
+            </button>
+
+            <p id="auth-message"></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- APP -->
+
+    <div id="app" class="app hidden">
+
+
+        <!-- SIDEBAR -->
+
+        <aside id="sidebar" class="sidebar">
+
+            <div class="sidebar-header">
+
+                <div class="brand">
+
+                    <div class="brand-icon">
+                        💬
+                    </div>
+
+                    <div>
+
+                        <h1>School Chat</h1>
+
+                        <span id="user-email"></span>
+
+                    </div>
+
+                </div>
+
+                <button
+                    id="logout"
+                    class="icon-button"
+                    title="Log out">
+                    ↪
+                </button>
+
+            </div>
+
+
+            <!-- ADMIN -->
+
+            <div
+                id="admin-panel"
+                class="admin-panel hidden">
+
+                <div class="admin-title">
+                    👑 Admin
+                </div>
+
+                <div class="add-friend">
+
+                    <input
+                        type="email"
+                        id="friend-email"
+                        placeholder="Friend's email">
+
+                    <button id="add-friend">
+                        +
+                    </button>
+
+                </div>
+
+                <p id="admin-message"></p>
+
+            </div>
+
+
+            <!-- SEARCH -->
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="friend-search"
+                    placeholder="Search friends...">
+
+            </div>
+
+
+            <!-- FRIENDS -->
+
+            <div class="friends-section">
+
+                <div class="section-title">
+                    Friends
+                </div>
+
+                <div id="friends-list"></div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CHAT -->
+
+        <main class="chat">
+
+
+            <!-- NO CHAT -->
+
+            <div
+                id="no-chat"
+                class="no-chat">
+
+                <div class="no-chat-icon">
+                    💬
+                </div>
+
+                <h2>Select a friend</h2>
+
+                <p>
+                    Choose a friend to start chatting.
+                </p>
+
+            </div>
+
+
+            <!-- CHAT WINDOW -->
+
+            <div
+                id="chat-window"
+                class="chat-window hidden">
+
+
+                <!-- HEADER -->
+
+                <header class="chat-header">
+
+                    <button
+                        id="back-button"
+                        class="back-button">
+                        ←
+                    </button>
+
+                    <div class="chat-avatar">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h2 id="chat-friend-name">
+                        </h2>
+
+                        <span
+                            id="chat-status">
+                            Offline
+                        </span>
+
+                    </div>
+
+                </header>
+
+
+                <!-- MESSAGES -->
+
+                <div id="messages"></div>
+
+
+                <!-- INPUT -->
+
+                <div class="message-box">
+
+                    <input
+                        type="text"
+                        id="message-input"
+                        placeholder="Write a message..."
+                        autocomplete="off">
+
+                    <button
+                        id="send-message">
+                        ➤
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script
+        type="module"
+        src="script.js">
+    </script>
+
+</body>
+
+</html>
