@@ -390,7 +390,9 @@ async function loadFriends() {
 
 
     for (const friend of data) {
-
+        
+        console.log("ADDING FRIEND TO LIST:", friend.email);
+        
         // Don't show yourself
         if (
             friend.email.toLowerCase() ===
