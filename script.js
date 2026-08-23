@@ -822,9 +822,14 @@ async function openFriend(email) {
 
     await getOrCreateConversation();
 
-    await loadMessages();
+if (!currentConversation) {
+    console.error("No conversation was created.");
+    return;
+}
 
-    subscribeToMessages();
+await loadMessages();
+
+subscribeToMessages();
 }
 
 
