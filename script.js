@@ -759,7 +759,9 @@ function updateFriendStatus(
 // =========================
 
 async function openFriend(email) {
-
+    
+    console.log("OPEN FRIEND:", email);
+    
     const { data: users, error } =
         await supabase
             .from("profiles")
