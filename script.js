@@ -361,17 +361,17 @@ async function addFriend() {
 
 async function loadFriends() {
 
-    console.log("LOAD FRIENDS STARTED");
+    console.log("CURRENT USER:", currentUser.email);
 
     friendsList.innerHTML = "";
 
     const { data, error } =
         await supabase
             .from("allowed_users")
-            .select("email, created_at")
-            .order("created_at", {
-                ascending: true
-            });
+            .select("email")
+            .order("created_at");
+
+    console.log("ALLOWED USERS:", data);
 
     if (error) {
 
