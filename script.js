@@ -418,36 +418,23 @@ async function loadFriends() {
         name.textContent =
             friend.email.split("@")[0];
         
-        const friendStatus =
+       const email =
     document.createElement("div");
 
+email.className =
+    "friend-email";
+
+email.textContent =
+    friend.email;
+
+
+        const friendStatus =
+            document.createElement("div");
+        
         friendStatus.className =
             "friend-status";
-
+        
         friendStatus.textContent =
-            "Offline";
-        
-        div.appendChild(name);
-        div.appendChild(status);
-
-
-                const email =
-            document.createElement("div");
-        
-        email.className =
-            "friend-email";
-        
-        email.textContent =
-            friend.email;
-        
-        
-        const status =
-            document.createElement("div");
-        
-        status.className =
-            "friend-status";
-        
-        status.textContent =
             "Offline";
         
         
