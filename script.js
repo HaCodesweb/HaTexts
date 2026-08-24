@@ -418,13 +418,13 @@ async function loadFriends() {
         name.textContent =
             friend.email.split("@")[0];
         
-        const status =
-            document.createElement("div");
-        
-        status.className =
+        const friendStatus =
+    document.createElement("div");
+
+        friendStatus.className =
             "friend-status";
-        
-        status.textContent =
+
+        friendStatus.textContent =
             "Offline";
         
         div.appendChild(name);
@@ -453,7 +453,7 @@ async function loadFriends() {
         
         div.appendChild(name);
         div.appendChild(email);
-        div.appendChild(status);
+        div.appendChild(friendStatus);
 
 
         // Admin remove button
