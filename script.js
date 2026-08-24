@@ -361,7 +361,10 @@ async function addFriend() {
 
 async function loadFriends() {
 
-    console.log("CURRENT USER:", currentUser.email);
+    console.log(
+        "CURRENT USER:",
+        currentUser.email
+    );
 
     friendsList.innerHTML = "";
 
@@ -371,7 +374,10 @@ async function loadFriends() {
             .select("email")
             .order("created_at");
 
-    console.log("ALLOWED USERS:", data);
+    console.log(
+        "ALLOWED USERS:",
+        data
+    );
 
     if (error) {
 
@@ -388,11 +394,13 @@ async function loadFriends() {
         data
     );
 
-
     for (const friend of data) {
-        
-        console.log("ADDING FRIEND TO LIST:", friend.email);
-        
+
+        console.log(
+            "ADDING FRIEND TO LIST:",
+            friend.email
+        );
+
         // Don't show yourself
         if (
             friend.email.toLowerCase() ===
@@ -401,7 +409,6 @@ async function loadFriends() {
             continue;
         }
 
-
         const div =
             document.createElement("div");
 
@@ -409,41 +416,51 @@ async function loadFriends() {
             "friend";
 
 
-                const name =
+        // Friend name
+
+        const name =
             document.createElement("div");
-        
+
         name.className =
             "friend-name";
-        
+
         name.textContent =
             friend.email.split("@")[0];
-        
-       const email =
-    document.createElement("div");
 
-email.className =
-    "friend-email";
 
-email.textContent =
-    friend.email;
+        // Friend email
 
+        const email =
+            document.createElement("div");
+
+        email.className =
+            "friend-email";
+
+        email.textContent =
+            friend.email;
+
+
+        // Friend online status
 
         const friendStatus =
             document.createElement("div");
-        
+
         friendStatus.className =
             "friend-status";
-        
+
         friendStatus.textContent =
             "Offline";
-        
-        
+
+
         div.appendChild(name);
+
         div.appendChild(email);
+
         div.appendChild(friendStatus);
 
 
         // Admin remove button
+
         if (
             !adminPanel.classList.contains("hidden")
         ) {
@@ -469,7 +486,9 @@ email.textContent =
                             `Remove ${friend.email}?`
                         );
 
-                    if (!confirmed) return;
+                    if (!confirmed) {
+                        return;
+                    }
 
 
                     const { error } =
@@ -508,6 +527,8 @@ email.textContent =
         }
 
 
+        // Open chat
+
         div.addEventListener(
             "click",
             () => openFriend(friend.email)
@@ -525,6 +546,18 @@ email.textContent =
 
 function startPresence() {
 
+    // Remove old presence channel
+
+    if (presenceChannel) {
+
+        supabase.removeChannel(
+            presenceChannel
+        );
+
+        presenceChannel = null;
+    }
+
+
     presenceChannel =
         supabase.channel(
             "school-chat-online",
@@ -537,6 +570,7 @@ function startPresence() {
             }
         );
 
+
     presenceChannel
         .on(
             "presence",
@@ -546,21 +580,26 @@ function startPresence() {
             () => {
 
                 const state =
-                    presenceChannel.presenceState();
+                    presenceChannel
+                        .presenceState();
+
 
                 onlineUsers =
                     new Set(
                         Object.keys(state)
                     );
 
+
                 refreshStatuses();
             }
         )
+
+
         .subscribe(
-            async status => {
+            async presenceStatus => {
 
                 if (
-                    status ===
+                    presenceStatus ===
                     "SUBSCRIBED"
                 ) {
 
@@ -579,6 +618,10 @@ function startPresence() {
 }
 
 
+// =========================
+// REFRESH STATUSES
+// =========================
+
 function refreshStatuses() {
 
     document
@@ -592,23 +635,26 @@ function refreshStatuses() {
                     )
                     ?.textContent;
 
-            const status =
+
+            const friendStatus =
                 friend
                     .querySelector(
                         ".friend-status"
                     );
 
+
             if (
                 email &&
-                status
+                friendStatus
             ) {
 
                 updateFriendStatus(
-                    status,
+                    friendStatus,
                     email
                 );
             }
         });
+
 
     if (currentFriend) {
 
@@ -617,10 +663,12 @@ function refreshStatuses() {
                 currentFriend.email
             );
 
+
         chatStatus.textContent =
             isOnline
                 ? "● Online"
                 : "Offline";
+
 
         chatStatus.classList.toggle(
             "online",
@@ -630,15 +678,16 @@ function refreshStatuses() {
 }
 
 
-function isFriendOnline(email) {
+// =========================
+// CHECK IF FRIEND IS ONLINE
+// =========================
 
-    // Presence keys are user IDs,
-    // so the local presence state is
-    // checked against each user's email.
+function isFriendOnline(email) {
 
     const state =
         presenceChannel
             ?.presenceState() || {};
+
 
     return Object.values(state)
         .some(entries =>
@@ -651,6 +700,10 @@ function isFriendOnline(email) {
         );
 }
 
+
+// =========================
+// UPDATE FRIEND STATUS
+// =========================
 
 function updateFriendStatus(
     element,
@@ -685,14 +738,19 @@ function updateFriendStatus(
 // =========================
 
 async function openFriend(email) {
-    
-    console.log("OPEN FRIEND:", email);
-    
+
+    console.log(
+        "OPEN FRIEND:",
+        email
+    );
+
+
     const { data: users, error } =
         await supabase
             .from("profiles")
             .select("id, email")
             .eq("email", email);
+
 
     if (error) {
 
@@ -700,6 +758,7 @@ async function openFriend(email) {
 
         return;
     }
+
 
     if (
         !users ||
@@ -713,14 +772,18 @@ async function openFriend(email) {
         return;
     }
 
+
     currentFriend =
         users[0];
+
 
     chatFriendName.textContent =
         currentFriend.email
             .split("@")[0];
 
+
     updateChatStatus();
+
 
     noChat.classList.add(
         "hidden"
@@ -741,6 +804,7 @@ async function openFriend(email) {
         currentFriend.email
     ] = 0;
 
+
     updateUnreadBadgeForEmail(
         currentFriend.email
     );
@@ -748,30 +812,45 @@ async function openFriend(email) {
 
     await getOrCreateConversation();
 
-if (!currentConversation) {
-    console.error("No conversation was created.");
-    return;
+
+    if (!currentConversation) {
+
+        console.error(
+            "No conversation was created."
+        );
+
+        return;
+    }
+
+
+    await loadMessages();
+
+    subscribeToMessages();
 }
 
-await loadMessages();
 
-subscribeToMessages();
-}
-
+// =========================
+// UPDATE CHAT STATUS
+// =========================
 
 function updateChatStatus() {
 
-    if (!currentFriend) return;
+    if (!currentFriend) {
+        return;
+    }
+
 
     const online =
         isFriendOnline(
             currentFriend.email
         );
 
+
     chatStatus.textContent =
         online
             ? "● Online"
             : "Offline";
+
 
     chatStatus.classList.toggle(
         "online",
@@ -786,33 +865,70 @@ function updateChatStatus() {
 
 async function getOrCreateConversation() {
 
-    if (!currentUser || !currentFriend) {
-        console.error("Missing user or friend.");
+    if (
+        !currentUser ||
+        !currentFriend
+    ) {
+
+        console.error(
+            "Missing user or friend."
+        );
+
         return;
     }
 
-    const myId = currentUser.id;
-    const friendId = currentFriend.id;
 
-    console.log("Creating/finding conversation...");
-    console.log("My ID:", myId);
-    console.log("Friend ID:", friendId);
+    const myId =
+        currentUser.id;
+
+    const friendId =
+        currentFriend.id;
+
+
+    console.log(
+        "Creating/finding conversation..."
+    );
+
+    console.log(
+        "My ID:",
+        myId
+    );
+
+    console.log(
+        "Friend ID:",
+        friendId
+    );
+
+
+    // Check normal direction
 
     let { data, error } =
         await supabase
             .from("conversations")
             .select("*")
-            .eq("user1", myId)
-            .eq("user2", friendId)
+            .eq(
+                "user1",
+                myId
+            )
+            .eq(
+                "user2",
+                friendId
+            )
             .maybeSingle();
 
+
     if (error) {
+
         console.error(
             "Error checking conversation:",
             error
         );
+
         return;
     }
+
+
+    // Check reverse direction
 
     if (!data) {
 
@@ -820,20 +936,34 @@ async function getOrCreateConversation() {
             await supabase
                 .from("conversations")
                 .select("*")
-                .eq("user1", friendId)
-                .eq("user2", myId)
+                .eq(
+                    "user1",
+                    friendId
+                )
+                .eq(
+                    "user2",
+                    myId
+                )
                 .maybeSingle();
 
+
         if (result.error) {
+
             console.error(
                 "Error checking reverse conversation:",
                 result.error
             );
+
             return;
         }
 
-        data = result.data;
+
+        data =
+            result.data;
     }
+
+
+    // Existing conversation
 
     if (data) {
 
@@ -842,19 +972,28 @@ async function getOrCreateConversation() {
             data
         );
 
-        currentConversation = data;
+        currentConversation =
+            data;
+
         return;
     }
+
+
+    // Create conversation
 
     const result =
         await supabase
             .from("conversations")
             .insert({
-                user1: myId,
-                user2: friendId
+                user1:
+                    myId,
+
+                user2:
+                    friendId
             })
             .select()
             .single();
+
 
     if (result.error) {
 
@@ -870,7 +1009,10 @@ async function getOrCreateConversation() {
         return;
     }
 
-    currentConversation = result.data;
+
+    currentConversation =
+        result.data;
+
 
     console.log(
         "Conversation created:",
@@ -878,13 +1020,20 @@ async function getOrCreateConversation() {
     );
 }
 
+
 // =========================
 // LOAD MESSAGES
 // =========================
 
 async function loadMessages() {
 
-    if (!currentConversation) return;
+    if (
+        !currentConversation
+    ) {
+
+        return;
+    }
+
 
     const { data, error } =
         await supabase
@@ -897,9 +1046,11 @@ async function loadMessages() {
             .order(
                 "created_at",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
+
 
     if (error) {
 
@@ -908,7 +1059,10 @@ async function loadMessages() {
         return;
     }
 
-    messagesContainer.innerHTML = "";
+
+    messagesContainer.innerHTML =
+        "";
+
 
     data.forEach(
         displayMessage
@@ -925,8 +1079,10 @@ function displayMessage(message) {
     const div =
         document.createElement("div");
 
+
     div.className =
         "message";
+
 
     if (
         message.sender ===
@@ -942,6 +1098,7 @@ function displayMessage(message) {
     const text =
         document.createElement("div");
 
+
     text.textContent =
         message.message;
 
@@ -949,8 +1106,10 @@ function displayMessage(message) {
     const time =
         document.createElement("span");
 
+
     time.className =
         "message-time";
+
 
     time.textContent =
         new Date(
@@ -958,19 +1117,29 @@ function displayMessage(message) {
         ).toLocaleTimeString(
             [],
             {
-                hour: "2-digit",
-                minute: "2-digit"
+                hour:
+                    "2-digit",
+
+                minute:
+                    "2-digit"
             }
         );
 
 
-    div.appendChild(text);
+    div.appendChild(
+        text
+    );
 
-    div.appendChild(time);
+
+    div.appendChild(
+        time
+    );
+
 
     messagesContainer.appendChild(
         div
     );
+
 
     messagesContainer.scrollTop =
         messagesContainer.scrollHeight;
@@ -985,6 +1154,7 @@ sendMessageButton.addEventListener(
     "click",
     sendMessage
 );
+
 
 messageInput.addEventListener(
     "keydown",
@@ -1011,15 +1181,21 @@ async function sendMessage() {
         return;
     }
 
+
     const text =
         messageInput.value.trim();
 
-    if (!text) return;
+
+    if (!text) {
+        return;
+    }
+
 
     const { error } =
         await supabase
             .from("messages")
             .insert({
+
                 conversation_id:
                     currentConversation.id,
 
@@ -1033,6 +1209,7 @@ async function sendMessage() {
                     text
             });
 
+
     if (error) {
 
         console.error(error);
@@ -1040,7 +1217,9 @@ async function sendMessage() {
         return;
     }
 
-    messageInput.value = "";
+
+    messageInput.value =
+        "";
 }
 
 
@@ -1050,12 +1229,24 @@ async function sendMessage() {
 
 function subscribeToMessages() {
 
+    if (
+        !currentConversation
+    ) {
+
+        return;
+    }
+
+
     if (realtimeChannel) {
 
         supabase.removeChannel(
             realtimeChannel
         );
+
+        realtimeChannel =
+            null;
     }
+
 
     realtimeChannel =
         supabase
@@ -1066,11 +1257,14 @@ function subscribeToMessages() {
             .on(
                 "postgres_changes",
                 {
-                    event: "INSERT",
+                    event:
+                        "INSERT",
 
-                    schema: "public",
+                    schema:
+                        "public",
 
-                    table: "messages",
+                    table:
+                        "messages",
 
                     filter:
                         "conversation_id=eq." +
@@ -1098,7 +1292,9 @@ function updateUnreadBadge(
 ) {
 
     const count =
-        unreadMessages[email] || 0;
+        unreadMessages[email] ||
+        0;
+
 
     if (count > 0) {
 
@@ -1107,13 +1303,16 @@ function updateUnreadBadge(
                 ? "99+"
                 : count;
 
+
         element.classList.add(
             "show"
         );
 
     } else {
 
-        element.textContent = "";
+        element.textContent =
+            "";
+
 
         element.classList.remove(
             "show"
@@ -1130,6 +1329,7 @@ function updateUnreadBadgeForEmail(
         document.querySelector(
             `.unread-badge[data-email="${CSS.escape(email)}"]`
         );
+
 
     if (badge) {
 
@@ -1154,6 +1354,7 @@ friendSearch.addEventListener(
                 .trim()
                 .toLowerCase();
 
+
         document
             .querySelectorAll(".friend")
             .forEach(friend => {
@@ -1161,6 +1362,7 @@ friendSearch.addEventListener(
                 const text =
                     friend.textContent
                         .toLowerCase();
+
 
                 friend.style.display =
                     text.includes(search)
@@ -1183,17 +1385,24 @@ backButton.addEventListener(
             "chat-open"
         );
 
+
         chatWindow.classList.add(
             "hidden"
         );
+
 
         noChat.classList.remove(
             "hidden"
         );
 
-        currentFriend = null;
 
-        currentConversation = null;
+        currentFriend =
+            null;
+
+
+        currentConversation =
+            null;
+
 
         if (realtimeChannel) {
 
@@ -1201,8 +1410,19 @@ backButton.addEventListener(
                 realtimeChannel
             );
 
-            realtimeChannel = null;
+
+            realtimeChannel =
+                null;
         }
+
+
+        chatStatus.textContent =
+            "Offline";
+
+
+        chatStatus.classList.remove(
+            "online"
+        );
     }
 );
 
@@ -1214,14 +1434,18 @@ backButton.addEventListener(
 async function checkUser() {
 
     const {
-        data: { user }
+        data: {
+            user
+        }
     } =
         await supabase.auth.getUser();
+
 
     if (user) {
 
         await startApp(user);
     }
 }
+
 
 checkUser();
