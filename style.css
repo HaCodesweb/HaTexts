@@ -709,3 +709,26 @@ button {
     background: rgba(255, 255, 255, 0.08);
     color: #ff5c5c;
 }
+
+
+.notify-button {
+    margin-left: auto;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.notify-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(1.05);
+}
+
+.notify-button:active {
+    transform: scale(0.95);
+}
