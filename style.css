@@ -9,7 +9,6 @@
 html,
 body {
     margin: 0;
-    padding: 0;
     width: 100%;
     height: 100%;
 }
@@ -17,7 +16,7 @@ body {
 body {
     font-family: Arial, Helvetica, sans-serif;
     background: #0b0b0b;
-    color: #ffffff;
+    color: white;
 }
 
 button,
@@ -39,8 +38,8 @@ input {
     min-height: 100vh;
 
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 
     padding: 20px;
 }
@@ -52,10 +51,12 @@ input {
     padding: 40px;
 
     background: #151515;
+
     border: 1px solid #292929;
     border-radius: 22px;
 
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.6);
 }
 
 .logo {
@@ -71,11 +72,12 @@ input {
 .subtitle {
     text-align: center;
     color: #777;
-    margin: 0 0 30px;
+    margin-bottom: 30px;
 }
 
 input {
     width: 100%;
+
     padding: 14px;
 
     border: 1px solid #303030;
@@ -85,6 +87,7 @@ input {
     color: white;
 
     outline: none;
+
     font-size: 15px;
 }
 
@@ -97,7 +100,7 @@ input:focus {
 }
 
 button {
-    border: none;
+    border: 0;
     cursor: pointer;
     border-radius: 10px;
     font-size: 15px;
@@ -131,7 +134,7 @@ button {
 
 
 /* =========================================================
-   MAIN APP
+   APP
 ========================================================= */
 
 .app {
@@ -149,9 +152,13 @@ button {
 ========================================================= */
 
 .sidebar {
+    flex: 0 0 330px;
+
     width: 330px;
     min-width: 330px;
-    height: 100%;
+    max-width: 330px;
+
+    height: 100vh;
 
     background: #151515;
 
@@ -159,22 +166,25 @@ button {
 
     display: flex;
     flex-direction: column;
+
+    overflow: hidden;
 }
 
 .sidebar-header {
+    flex: 0 0 auto;
+
     padding: 18px;
 
     border-bottom: 1px solid #292929;
 
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 }
 
 .brand {
     display: flex;
     align-items: center;
-
     gap: 10px;
 
     min-width: 0;
@@ -195,7 +205,6 @@ button {
     margin-top: 3px;
 
     color: #666;
-
     font-size: 11px;
 
     max-width: 210px;
@@ -206,7 +215,7 @@ button {
 }
 
 .icon-button {
-    flex-shrink: 0;
+    flex: 0 0 auto;
 
     width: 38px;
     height: 38px;
@@ -223,6 +232,8 @@ button {
 ========================================================= */
 
 .admin-panel {
+    flex: 0 0 auto;
+
     padding: 15px;
 
     background: #111;
@@ -231,19 +242,19 @@ button {
 }
 
 .admin-title {
-    margin-bottom: 9px;
+    font-size: 13px;
+    font-weight: bold;
 
     color: #aaa;
 
-    font-size: 13px;
-    font-weight: bold;
+    margin-bottom: 9px;
 }
 
 .add-friend {
-    width: 100%;
-
     display: flex;
     gap: 7px;
+
+    width: 100%;
 }
 
 .add-friend input {
@@ -254,7 +265,7 @@ button {
 }
 
 .add-friend button {
-    flex-shrink: 0;
+    flex: 0 0 45px;
 
     width: 45px;
 
@@ -267,9 +278,8 @@ button {
 #admin-message {
     margin: 7px 0 0;
 
-    color: #777;
-
     font-size: 12px;
+    color: #777;
 }
 
 
@@ -278,6 +288,8 @@ button {
 ========================================================= */
 
 .search-box {
+    flex: 0 0 auto;
+
     padding: 12px 15px;
 }
 
@@ -292,7 +304,8 @@ button {
 ========================================================= */
 
 .friends-section {
-    flex: 1;
+    flex: 1 1 auto;
+
     min-height: 0;
 
     overflow-y: auto;
@@ -342,7 +355,6 @@ button {
     margin-top: 3px;
 
     color: #666;
-
     font-size: 11px;
 }
 
@@ -350,18 +362,12 @@ button {
     margin-top: 4px;
 
     color: #666;
-
     font-size: 10px;
 }
 
 .friend-status.online {
     color: #5ee68a;
 }
-
-
-/* =========================================================
-   REMOVE FRIEND
-========================================================= */
 
 .remove-friend {
     position: absolute;
@@ -390,31 +396,32 @@ button {
 ========================================================= */
 
 .chat {
-    flex: 1;
-    min-width: 0;
-    min-height: 0;
+    flex: 1 1 auto;
 
+    width: auto;
+    min-width: 0;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   NO CHAT
+========================================================= */
+
+.no-chat {
+    width: 100%;
     height: 100%;
 
     display: flex;
     flex-direction: column;
 
-    background: #0b0b0b;
-}
-
-
-/* =========================================================
-   NO CHAT SCREEN
-========================================================= */
-
-.no-chat {
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
     justify-content: center;
+    align-items: center;
 
     text-align: center;
 
@@ -426,12 +433,7 @@ button {
 }
 
 .no-chat h2 {
-    margin-bottom: 5px;
     color: white;
-}
-
-.no-chat p {
-    margin-top: 0;
 }
 
 
@@ -440,14 +442,16 @@ button {
 ========================================================= */
 
 .chat-window {
+    flex: 1 1 auto;
+
     width: 100%;
+    min-width: 0;
     height: 100%;
 
     display: flex;
     flex-direction: column;
 
-    min-width: 0;
-    min-height: 0;
+    overflow: hidden;
 }
 
 
@@ -456,9 +460,9 @@ button {
 ========================================================= */
 
 .chat-header {
+    flex: 0 0 70px;
+
     width: 100%;
-    height: 70px;
-    min-height: 70px;
 
     padding: 12px 20px;
 
@@ -471,7 +475,7 @@ button {
 }
 
 .chat-avatar {
-    flex-shrink: 0;
+    flex: 0 0 40px;
 
     width: 40px;
     height: 40px;
@@ -481,14 +485,24 @@ button {
     background: #292929;
 
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+}
+
+.chat-user-info {
+    flex: 1 1 auto;
+
+    min-width: 0;
 }
 
 .chat-header h2 {
     margin: 0;
 
     font-size: 17px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #chat-status {
@@ -500,10 +514,52 @@ button {
     color: #5ee68a;
 }
 
+
+/* =========================================================
+   NOTIFICATION BUTTON
+========================================================= */
+
+.notify-button {
+    flex: 0 0 38px;
+
+    width: 38px;
+    height: 38px;
+
+    margin-left: auto;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    color: white;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.notify-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+
+    transform: scale(1.05);
+}
+
+.notify-button:active {
+    transform: scale(0.95);
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
 .back-button {
     display: none;
 
+    flex: 0 0 auto;
+
     background: transparent;
+
     color: white;
 
     font-size: 24px;
@@ -515,11 +571,11 @@ button {
 ========================================================= */
 
 #messages {
-    flex: 1;
-    min-width: 0;
-    min-height: 0;
+    flex: 1 1 auto;
 
     width: 100%;
+    min-width: 0;
+    min-height: 0;
 
     overflow-y: auto;
 
@@ -530,6 +586,8 @@ button {
 }
 
 .message {
+    flex: 0 0 auto;
+
     width: fit-content;
     max-width: 70%;
 
@@ -547,7 +605,7 @@ button {
 .message.mine {
     align-self: flex-end;
 
-    margin-left: auto;
+    margin-left: 30%;
 
     background: #444;
 
@@ -556,6 +614,8 @@ button {
 
 .message:not(.mine) {
     align-self: flex-start;
+
+    margin-right: 30%;
 
     border-bottom-left-radius: 4px;
 }
@@ -603,6 +663,7 @@ button {
 
 .delete-message:hover {
     background: rgba(255, 255, 255, 0.08);
+
     color: #ff5c5c;
 }
 
@@ -612,21 +673,23 @@ button {
 ========================================================= */
 
 .message-box {
+    flex: 0 0 auto;
+
     width: 100%;
-    min-height: 80px;
+
+    min-width: 0;
+
+    display: flex;
+
+    gap: 10px;
 
     padding: 15px;
 
     border-top: 1px solid #292929;
-
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
 }
 
 .message-box input {
-    flex: 1;
+    flex: 1 1 auto;
 
     width: auto;
     min-width: 0;
@@ -635,50 +698,15 @@ button {
 }
 
 .message-box button {
-    flex-shrink: 0;
+    flex: 0 0 52px;
 
     width: 52px;
-    height: 48px;
 
     background: white;
+
     color: black;
 
     font-size: 17px;
-}
-
-
-/* =========================================================
-   NOTIFICATION BUTTON
-========================================================= */
-
-.notify-button {
-    flex-shrink: 0;
-
-    width: 38px;
-    height: 38px;
-
-    margin-left: auto;
-
-    border: none;
-    border-radius: 10px;
-
-    background: rgba(255, 255, 255, 0.06);
-    color: white;
-
-    font-size: 17px;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-.notify-button:hover {
-    background: rgba(255, 255, 255, 0.12);
-    transform: scale(1.05);
-}
-
-.notify-button:active {
-    transform: scale(0.95);
 }
 
 
@@ -725,9 +753,14 @@ button {
     .sidebar {
         width: 100%;
         min-width: 100%;
+        max-width: 100%;
     }
 
     .chat {
+        width: 100%;
+    }
+
+    .app:not(.chat-open) .chat {
         display: none;
     }
 
@@ -743,10 +776,6 @@ button {
         display: block;
     }
 
-    .sidebar-header {
-        padding: 15px;
-    }
-
     .admin-panel {
         padding: 10px 12px;
     }
@@ -759,13 +788,6 @@ button {
         padding: 14px;
     }
 
-    .chat-header {
-        height: 65px;
-        min-height: 65px;
-
-        padding: 10px 15px;
-    }
-
     #messages {
         padding: 15px;
     }
@@ -775,8 +797,6 @@ button {
     }
 
     .message-box {
-        min-height: 70px;
-
         padding: 10px;
     }
 
@@ -785,7 +805,12 @@ button {
     }
 
     .message-box button {
+        flex-basis: 50px;
         width: 50px;
         min-width: 50px;
+    }
+
+    .chat-header {
+        padding: 10px 15px;
     }
 }
