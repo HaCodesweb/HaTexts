@@ -1079,37 +1079,31 @@ function displayMessage(message) {
     const div =
         document.createElement("div");
 
-
     div.className =
         "message";
 
+    const isMine =
+        message.sender === currentUser.email;
 
-    if (
-        message.sender ===
-        currentUser.email
-    ) {
-
-        div.classList.add(
-            "mine"
-        );
+    if (isMine) {
+        div.classList.add("mine");
     }
 
 
+    // Message text
     const text =
         document.createElement("div");
-
 
     text.textContent =
         message.message;
 
 
+    // Time
     const time =
         document.createElement("span");
 
-
     time.className =
         "message-time";
-
 
     time.textContent =
         new Date(
@@ -1117,34 +1111,92 @@ function displayMessage(message) {
         ).toLocaleTimeString(
             [],
             {
-                hour:
-                    "2-digit",
-
-                minute:
-                    "2-digit"
+                hour: "2-digit",
+                minute: "2-digit"
             }
         );
 
 
-    div.appendChild(
-        text
-    );
+    div.appendChild(text);
+    div.appendChild(time);
 
 
-    div.appendChild(
-        time
-    );
+    // =========================
+    // DELETE BUTTON
+    // =========================
+
+    if (isMine) {
+
+        const deleteButton =
+            document.createElement("button");
+
+        deleteButton.textContent =
+            "Delete";
+
+        deleteButton.className =
+            "delete-message";
+
+
+        deleteButton.addEventListener(
+            "click",
+            async event => {
+
+                event.stopPropagation();
+
+                const confirmed =
+                    confirm(
+                        "Delete this message?"
+                    );
+
+                if (!confirmed) {
+                    return;
+                }
+
+
+                const { error } =
+                    await supabase
+                        .from("messages")
+                        .delete()
+                        .eq(
+                            "id",
+                            message.id
+                        );
+
+
+                if (error) {
+
+                    console.error(
+                        "Could not delete message:",
+                        error
+                    );
+
+                    alert(
+                        "Could not delete the message."
+                    );
+
+                    return;
+                }
+
+
+                // Remove it immediately
+                div.remove();
+            }
+        );
+
+
+        div.appendChild(
+            deleteButton
+        );
+    }
 
 
     messagesContainer.appendChild(
         div
     );
 
-
     messagesContainer.scrollTop =
         messagesContainer.scrollHeight;
 }
-
 
 // =========================
 // SEND MESSAGE
