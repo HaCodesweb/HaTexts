@@ -262,7 +262,9 @@ async function startApp(user) {
 
     console.log("FRIENDS FINISHED LOADING");
 
-    startPresence();
+   startPresence();
+
+await setupPushNotifications();
 }
 
 
@@ -1501,9 +1503,9 @@ checkUser();
 // SERVICE WORKER
 // =========================
 
-// =========================
-// SERVICE WORKER
-// =========================
+const VAPID_PUBLIC_KEY =
+    "BBxc6O6DW0f83e0w0prh17dkA7yPgioYSy7CXFMOEkyU2NByiW6b1VlmWIIuWB4K9L9HWbSUHkrXLLsB4FmiFBM";
+
 
 async function registerServiceWorker() {
 
@@ -1513,7 +1515,7 @@ async function registerServiceWorker() {
             "Service workers are not supported."
         );
 
-        return;
+        return null;
     }
 
     try {
@@ -1528,6 +1530,8 @@ async function registerServiceWorker() {
             registration
         );
 
+        return registration;
+
     } catch (error) {
 
         console.error(
@@ -1535,134 +1539,216 @@ async function registerServiceWorker() {
             error
         );
 
+        return null;
     }
 }
 
 
-// Register service worker
-registerServiceWorker();
+// =========================
+// CONVERT VAPID KEY
+// =========================
+
+function urlBase64ToUint8Array(
+    base64String
+) {
+
+    const padding =
+        "=".repeat(
+            (4 - base64String.length % 4) % 4
+        );
+
+    const base64 =
+        (
+            base64String +
+            padding
+        )
+            .replace(/-/g, "+")
+            .replace(/_/g, "/");
+
+    const rawData =
+        window.atob(base64);
+
+    const outputArray =
+        new Uint8Array(
+            rawData.length
+        );
+
+    for (
+        let i = 0;
+        i < rawData.length;
+        ++i
+    ) {
+
+        outputArray[i] =
+            rawData.charCodeAt(i);
+    }
+
+    return outputArray;
+}
 
 
 // =========================
-// NOTIFICATION BUTTON
+// SAVE PUSH SUBSCRIPTION
 // =========================
 
-notifyFriendButton.addEventListener(
-    "click",
-    async () => {
+async function subscribeToPush() {
+
+    if (!currentUser) {
+
+        console.error(
+            "No logged-in user."
+        );
+
+        return;
+    }
+
+
+    if (!("PushManager" in window)) {
+
+        console.error(
+            "Push notifications are not supported."
+        );
+
+        return;
+    }
+
+
+    if (!("Notification" in window)) {
+
+        console.error(
+            "Notifications are not supported."
+        );
+
+        return;
+    }
+
+
+    if (
+        Notification.permission !==
+        "granted"
+    ) {
 
         console.log(
-            "🔔 NOTIFY BUTTON CLICKED"
+            "Notification permission is not granted."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const registration =
+            await navigator.serviceWorker.ready;
+
+
+        let subscription =
+            await registration.pushManager.getSubscription();
+
+
+        // Create subscription if one doesn't exist
+
+        if (!subscription) {
+
+            subscription =
+                await registration.pushManager.subscribe({
+
+                    userVisibleOnly:
+                        true,
+
+                    applicationServerKey:
+                        urlBase64ToUint8Array(
+                            VAPID_PUBLIC_KEY
+                        )
+                });
+        }
+
+
+        console.log(
+            "PUSH SUBSCRIPTION:",
+            subscription
         );
 
 
-        // Check browser support
+        const subscriptionJSON =
+            subscription.toJSON();
 
-        if (!("Notification" in window)) {
-
-            alert(
-                "This browser does not support notifications."
-            );
-
-            return;
-        }
-
-
-        // Check permission
 
         if (
-            Notification.permission ===
-            "default"
+            !subscriptionJSON.endpoint ||
+            !subscriptionJSON.keys
         ) {
-
-            console.log(
-                "Requesting notification permission..."
-            );
-
-            const permission =
-                await Notification.requestPermission();
-
-            console.log(
-                "NOTIFICATION PERMISSION:",
-                permission
-            );
-
-            if (
-                permission !==
-                "granted"
-            ) {
-
-                console.log(
-                    "Notification permission was not granted."
-                );
-
-                return;
-            }
-        }
-
-
-        // Permission denied
-
-        if (
-            Notification.permission !==
-            "granted"
-        ) {
-
-            console.log(
-                "Notification permission is not granted."
-            );
-
-            alert(
-                "Please allow notifications in your browser settings."
-            );
-
-            return;
-        }
-
-
-        // Get service worker
-
-        try {
-
-            const registration =
-                await navigator.serviceWorker.ready;
-
-
-            // Show notification
-
-            await registration.showNotification(
-                "School Chat",
-                {
-                    body:
-                        "This is a test notification 🔔",
-
-                    icon:
-                        "/HaTexts/favicon.png",
-
-                    badge:
-                        "/HaTexts/favicon.png",
-
-                    tag:
-                        "school-chat-test",
-
-                    renotify:
-                        true
-                }
-            );
-
-
-            console.log(
-                "🔔 TEST NOTIFICATION SENT"
-            );
-
-        } catch (error) {
 
             console.error(
-                "Could not show notification:",
+                "Invalid push subscription."
+            );
+
+            return;
+        }
+
+
+        const { error } =
+            await supabase
+                .from("push_subscriptions")
+                .upsert(
+                    {
+                        user_id:
+                            currentUser.id,
+
+                        endpoint:
+                            subscriptionJSON.endpoint,
+
+                        p256dh:
+                            subscriptionJSON.keys.p256dh,
+
+                        auth:
+                            subscriptionJSON.keys.auth
+                    },
+                    {
+                        onConflict:
+                            "endpoint"
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Could not save push subscription:",
                 error
             );
 
+            return;
         }
 
+
+        console.log(
+            "✅ PUSH SUBSCRIPTION SAVED"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not subscribe to push:",
+            error
+        );
     }
-);
+}
+
+
+// =========================
+// START PUSH
+// =========================
+
+async function setupPushNotifications() {
+
+    await registerServiceWorker();
+
+    if (
+        Notification.permission ===
+        "granted"
+    ) {
+
+        await subscribeToPush();
+    }
+}
