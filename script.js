@@ -1531,4 +1531,48 @@ async function registerServiceWorker() {
     }
 }
 
-registerServiceWorker();
+// =========================
+// NOTIFICATION PERMISSION
+// =========================
+
+async function requestNotificationPermission() {
+
+    if (!("Notification" in window)) {
+
+        console.error(
+            "This browser does not support notifications."
+        );
+
+        return;
+    }
+
+    console.log(
+        "CURRENT NOTIFICATION PERMISSION:",
+        Notification.permission
+    );
+
+    if (
+        Notification.permission ===
+        "default"
+    ) {
+
+        const permission =
+            await Notification.requestPermission();
+
+        console.log(
+            "NOTIFICATION PERMISSION RESULT:",
+            permission
+        );
+
+    } else {
+
+        console.log(
+            "NOTIFICATION PERMISSION ALREADY SET:",
+            Notification.permission
+        );
+    }
+}
+
+registerServiceWorker().then(() => {
+    requestNotificationPermission();
+});
