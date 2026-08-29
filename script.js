@@ -1578,40 +1578,7 @@ registerServiceWorker().then(() => {
 });
 
 
-// =========================
-// TEST NOTIFICATION
-// =========================
 
-async function testNotification() {
-
-    if (!("Notification" in window)) {
-        alert("This browser does not support notifications.");
-        return;
-    }
-
-    const permission =
-        await Notification.requestPermission();
-
-    console.log("NOTIFICATION PERMISSION:", permission);
-
-    if (permission !== "granted") {
-        alert("Notification permission was not granted.");
-        return;
-    }
-
-    const registration =
-        await navigator.serviceWorker.ready;
-
-    await registration.showNotification(
-        "School Chat",
-        {
-            body: "Notifications are working! 🔔",
-            icon: "/HaTexts/favicon.png"
-        }
-    );
-}
-
-testNotification();
 
 // =========================
 // TEST NOTIFICATION
