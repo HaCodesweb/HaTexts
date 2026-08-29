@@ -1026,7 +1026,8 @@ async function getOrCreateConversation() {
 // =========================
 
 async function loadMessages() {
-
+console.log("LOAD MESSAGES RUNNING");
+    
     if (
         !currentConversation
     ) {
