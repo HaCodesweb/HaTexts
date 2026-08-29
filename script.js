@@ -1496,3 +1496,39 @@ async function checkUser() {
 
 
 checkUser();
+
+// =========================
+// SERVICE WORKER
+// =========================
+
+async function registerServiceWorker() {
+
+    if (!("serviceWorker" in navigator)) {
+        console.error(
+            "Service workers are not supported."
+        );
+        return;
+    }
+
+    try {
+
+        const registration =
+            await navigator.serviceWorker.register(
+                "/HaTexts/service-worker.js"
+            );
+
+        console.log(
+            "Service worker registered:",
+            registration
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Service worker registration failed:",
+            error
+        );
+    }
+}
+
+registerServiceWorker();
