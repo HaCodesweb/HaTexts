@@ -739,11 +739,7 @@ function updateFriendStatus(
 
 async function openFriend(email) {
 
-    console.log(
-        "OPEN FRIEND:",
-        email
-    );
-
+    console.log("OPEN FRIEND:", email);
 
     const { data: users, error } =
         await supabase
@@ -751,81 +747,63 @@ async function openFriend(email) {
             .select("id, email")
             .eq("email", email);
 
-
     if (error) {
-
-        console.error(error);
-
+        console.error("Error finding friend:", error);
         return;
     }
 
-
-    if (
-        !users ||
-        users.length === 0
-    ) {
-
-        alert(
-            "This person has not created an account yet."
-        );
-
+    if (!users || users.length === 0) {
+        alert("This person has not created an account yet.");
         return;
     }
 
+    currentFriend = users[0];
 
-    currentFriend =
-        users[0];
-
+    console.log("CURRENT FRIEND:", currentFriend);
 
     chatFriendName.textContent =
-        currentFriend.email
-            .split("@")[0];
-
+        currentFriend.email.split("@")[0];
 
     updateChatStatus();
 
+    noChat.classList.add("hidden");
+    chatWindow.classList.remove("hidden");
+    app.classList.add("chat-open");
 
-    noChat.classList.add(
-        "hidden"
-    );
-
-    chatWindow.classList.remove(
-        "hidden"
-    );
-
-    app.classList.add(
-        "chat-open"
-    );
-
-
-    // Clear unread count
-
-    unreadMessages[
-        currentFriend.email
-    ] = 0;
-
+    unreadMessages[currentFriend.email] = 0;
 
     updateUnreadBadgeForEmail(
         currentFriend.email
     );
 
+    // Reset previous conversation
+    currentConversation = null;
 
-   await getOrCreateConversation();
+    // Find/create conversation
+    await getOrCreateConversation();
 
-    console.log("CURRENT CONVERSATION:", currentConversation);
-    
+    console.log(
+        "CURRENT CONVERSATION AFTER GET:",
+        currentConversation
+    );
+
     if (!currentConversation) {
-        console.error("No conversation was created.");
+        console.error(
+            "No conversation was created."
+        );
         return;
     }
-    
+
+    // Load existing messages
+    console.log("ABOUT TO LOAD MESSAGES");
+
     await loadMessages();
-    
+
     console.log("LOAD MESSAGES FINISHED");
-    
+
+    // Start realtime messages
     subscribeToMessages();
 }
-
 
 // =========================
 // UPDATE CHAT STATUS
@@ -1024,15 +1002,20 @@ async function getOrCreateConversation() {
 // =========================
 
 async function loadMessages() {
-console.log("LOAD MESSAGES RUNNING");
-    
-    if (
-        !currentConversation
-    ) {
 
+    console.log("LOAD MESSAGES RUNNING");
+
+    if (!currentConversation) {
+        console.error(
+            "loadMessages: No current conversation!"
+        );
         return;
     }
 
+    console.log(
+        "LOADING CONVERSATION:",
+        currentConversation.id
+    );
 
     const { data, error } =
         await supabase
@@ -1045,29 +1028,30 @@ console.log("LOAD MESSAGES RUNNING");
             .order(
                 "created_at",
                 {
-                    ascending:
-                        true
+                    ascending: true
                 }
             );
 
-
     if (error) {
 
-        console.error(error);
+        console.error(
+            "ERROR LOADING MESSAGES:",
+            error
+        );
 
         return;
     }
 
+    console.log(
+        "MESSAGES FROM DATABASE:",
+        data
+    );
 
-    messagesContainer.innerHTML =
-        "";
-
-
-    console.log("MESSAGES FROM DATABASE:", data);
+    messagesContainer.innerHTML = "";
 
     data.forEach(message => {
         displayMessage(message);
-});
+    });
 }
 
 
