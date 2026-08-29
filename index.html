@@ -3,20 +3,38 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="favicon.png">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="favicon.png"
+    >
 
     <title>School Chat</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
+
 
 <body>
 
-    <!-- LOGIN -->
 
-    <section id="auth-section" class="auth-container">
+    <!-- =====================================================
+         LOGIN
+    ====================================================== -->
+
+    <section
+        id="auth-section"
+        class="auth-container"
+    >
 
         <div class="auth-card">
 
@@ -24,11 +42,14 @@
                 💬
             </div>
 
-            <h1>School Chat</h1>
+            <h1>
+                School Chat
+            </h1>
 
             <p class="subtitle">
                 Private messaging for your friends
             </p>
+
 
             <input
                 type="email"
@@ -37,6 +58,7 @@
                 autocomplete="email"
             >
 
+
             <input
                 type="password"
                 id="password"
@@ -44,17 +66,22 @@
                 autocomplete="current-password"
             >
 
+
             <button
                 id="login"
-                class="primary-button">
+                class="primary-button"
+            >
                 Log in
             </button>
 
+
             <button
                 id="signup"
-                class="secondary-button">
+                class="secondary-button"
+            >
                 Create account
             </button>
+
 
             <p id="auth-message"></p>
 
@@ -63,14 +90,28 @@
     </section>
 
 
-    <!-- APP -->
 
-    <div id="app" class="app hidden">
+    <!-- =====================================================
+         APP
+    ====================================================== -->
+
+    <div
+        id="app"
+        class="app hidden"
+    >
 
 
-        <!-- SIDEBAR -->
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
 
-        <aside id="sidebar" class="sidebar">
+        <aside
+            id="sidebar"
+            class="sidebar"
+        >
+
+
+            <!-- SIDEBAR HEADER -->
 
             <div class="sidebar-header">
 
@@ -82,7 +123,9 @@
 
                     <div>
 
-                        <h1>School Chat</h1>
+                        <h1>
+                            School Chat
+                        </h1>
 
                         <span id="user-email"></span>
 
@@ -90,32 +133,40 @@
 
                 </div>
 
+
                 <button
                     id="logout"
                     class="icon-button"
-                    title="Log out">
+                    title="Log out"
+                >
                     ↪
                 </button>
 
             </div>
 
 
-            <!-- ADMIN -->
+
+            <!-- =================================================
+                 ADMIN
+            ================================================== -->
 
             <div
                 id="admin-panel"
-                class="admin-panel hidden">
+                class="admin-panel hidden"
+            >
 
                 <div class="admin-title">
                     👑 Admin
                 </div>
+
 
                 <div class="add-friend">
 
                     <input
                         type="email"
                         id="friend-email"
-                        placeholder="Friend's email">
+                        placeholder="Friend's email"
+                    >
 
                     <button id="add-friend">
                         +
@@ -123,30 +174,39 @@
 
                 </div>
 
+
                 <p id="admin-message"></p>
 
             </div>
 
 
-            <!-- SEARCH -->
+
+            <!-- =================================================
+                 SEARCH
+            ================================================== -->
 
             <div class="search-box">
 
                 <input
                     type="text"
                     id="friend-search"
-                    placeholder="Search friends...">
+                    placeholder="Search friends..."
+                >
 
             </div>
 
 
-            <!-- FRIENDS -->
+
+            <!-- =================================================
+                 FRIENDS
+            ================================================== -->
 
             <div class="friends-section">
 
                 <div class="section-title">
                     Friends
                 </div>
+
 
                 <div id="friends-list"></div>
 
@@ -155,22 +215,32 @@
         </aside>
 
 
-        <!-- CHAT -->
+
+        <!-- =====================================================
+             CHAT
+        ====================================================== -->
 
         <main class="chat">
 
 
-            <!-- NO CHAT -->
+            <!-- =================================================
+                 NO CHAT SELECTED
+            ================================================== -->
 
             <div
                 id="no-chat"
-                class="no-chat">
+                class="no-chat"
+            >
 
                 <div class="no-chat-icon">
                     💬
                 </div>
 
-                <h2>Select a friend</h2>
+
+                <h2>
+                    Select a friend
+                </h2>
+
 
                 <p>
                     Choose a friend to start chatting.
@@ -179,85 +249,118 @@
             </div>
 
 
-            <!-- CHAT WINDOW -->
+
+            <!-- =================================================
+                 CHAT WINDOW
+            ================================================== -->
 
             <div
                 id="chat-window"
-                class="chat-window hidden">
+                class="chat-window hidden"
+            >
 
 
-                <!-- HEADER -->
+                <!-- =================================================
+                     CHAT HEADER
+                ================================================== -->
 
                 <header class="chat-header">
 
-    <button
-        id="back-button"
-        class="back-button">
-        ←
-    </button>
 
-    <div class="chat-avatar">
-        👤
-    </div>
+                    <!-- BACK BUTTON -->
 
-    <div class="chat-user-info">
+                    <button
+                        id="back-button"
+                        class="back-button"
+                    >
+                        ←
+                    </button>
 
-        <h2 id="chat-friend-name">
-        </h2>
 
-        <span id="chat-status">
-            Offline
-        </span>
+                    <!-- AVATAR -->
 
-    </div>
+                    <div class="chat-avatar">
+                        👤
+                    </div>
 
-    <button
-        id="notify-friend"
-        class="notify-button"
-        title="Notify friend">
-        🔔
-    </button>
 
-</header>
+                    <!-- USER INFORMATION -->
+
+                    <div class="chat-user-info">
+
+                        <h2 id="chat-friend-name"></h2>
+
+                        <span id="chat-status">
+                            Offline
+                        </span>
 
                     </div>
+
+
+                    <!-- NOTIFICATION BUTTON -->
+
+                    <button
+                        id="notify-friend"
+                        class="notify-button"
+                        title="Notify friend"
+                    >
+                        🔔
+                    </button>
 
                 </header>
 
 
-                <!-- MESSAGES -->
+
+                <!-- =================================================
+                     MESSAGES
+                ================================================== -->
 
                 <div id="messages"></div>
 
 
-                <!-- INPUT -->
+
+                <!-- =================================================
+                     MESSAGE INPUT
+                ================================================== -->
 
                 <div class="message-box">
+
 
                     <input
                         type="text"
                         id="message-input"
                         placeholder="Write a message..."
-                        autocomplete="off">
+                        autocomplete="off"
+                    >
+
 
                     <button
-                        id="send-message">
+                        id="send-message"
+                    >
                         ➤
                     </button>
 
                 </div>
 
+
             </div>
 
         </main>
 
+
     </div>
 
 
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
     <script
         type="module"
-        src="script.js">
-    </script>
+        src="script.js"
+    ></script>
+
 
 </body>
 
