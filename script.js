@@ -87,6 +87,9 @@ const backButton =
 const chatStatus =
     document.getElementById("chat-status");
 
+const notifyFriendButton =
+    document.getElementById("notify-friend");
+
 
 // =========================
 // STATE
