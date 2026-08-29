@@ -810,21 +810,19 @@ async function openFriend(email) {
     );
 
 
-    await getOrCreateConversation();
+   await getOrCreateConversation();
 
-
+    console.log("CURRENT CONVERSATION:", currentConversation);
+    
     if (!currentConversation) {
-
-        console.error(
-            "No conversation was created."
-        );
-
+        console.error("No conversation was created.");
         return;
     }
-
-
+    
     await loadMessages();
-
+    
+    console.log("LOAD MESSAGES FINISHED");
+    
     subscribeToMessages();
 }
 
