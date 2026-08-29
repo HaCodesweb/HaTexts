@@ -1076,8 +1076,12 @@ async function loadMessages() {
 
 function displayMessage(message) {
 
+    console.log("DISPLAY MESSAGE FUNCTION RUNNING", message);
+
     const div =
         document.createElement("div");
+    
+    
 
     div.className =
         "message";
