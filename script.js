@@ -1082,8 +1082,11 @@ function displayMessage(message) {
     div.className =
         "message";
 
-    const isMine =
-        message.sender === currentUser.email;
+    console.log("MESSAGE SENDER:", message.sender);
+console.log("CURRENT USER:", currentUser.email);
+
+const isMine =
+    message.sender === currentUser.email;
 
     if (isMine) {
         div.classList.add("mine");
