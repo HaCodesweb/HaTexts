@@ -1,3 +1,4 @@
+```css
 /* =========================
    GLOBAL
 ========================= */
@@ -162,6 +163,8 @@ button {
     width: 330px;
     min-width: 330px;
 
+    height: 100%;
+
     background: #151515;
 
     border-right: 1px solid #292929;
@@ -183,6 +186,7 @@ button {
 .brand {
     display: flex;
     align-items: center;
+
     gap: 10px;
 
     min-width: 0;
@@ -210,12 +214,17 @@ button {
     max-width: 210px;
 
     overflow: hidden;
+
     text-overflow: ellipsis;
+
+    white-space: nowrap;
 }
 
 .icon-button {
     width: 38px;
     height: 38px;
+
+    flex-shrink: 0;
 
     background: #292929;
 
@@ -249,6 +258,7 @@ button {
 
 .add-friend {
     display: flex;
+
     gap: 7px;
 }
 
@@ -258,6 +268,8 @@ button {
 
 .add-friend button {
     width: 45px;
+
+    flex-shrink: 0;
 
     background: white;
 
@@ -296,6 +308,8 @@ button {
 
 .friends-section {
     flex: 1;
+
+    min-height: 0;
 
     overflow-y: auto;
 
@@ -379,30 +393,42 @@ button {
 
 .remove-friend:hover {
     background: #444;
+
     color: white;
 }
 
 
 /* =========================
-   CHAT AREA
+   CHAT
 ========================= */
 
 .chat {
     flex: 1;
 
+    width: calc(100% - 330px);
+
     min-width: 0;
     min-height: 0;
 
+    height: 100%;
+
     display: flex;
+    flex-direction: column;
+
+    background: #0b0b0b;
 }
 
 .no-chat {
     flex: 1;
 
+    width: 100%;
+
     display: flex;
+
     flex-direction: column;
 
     justify-content: center;
+
     align-items: center;
 
     text-align: center;
@@ -416,6 +442,8 @@ button {
 
 .no-chat h2 {
     color: white;
+
+    margin-bottom: 5px;
 }
 
 
@@ -425,12 +453,14 @@ button {
 
 .chat-window {
     width: 100%;
+
     height: 100%;
 
     min-width: 0;
     min-height: 0;
 
     display: flex;
+
     flex-direction: column;
 }
 
@@ -443,6 +473,7 @@ button {
     width: 100%;
 
     height: 70px;
+
     min-height: 70px;
 
     padding: 12px 20px;
@@ -450,34 +481,47 @@ button {
     border-bottom: 1px solid #292929;
 
     display: flex;
+
     align-items: center;
 
     gap: 12px;
+
+    flex-shrink: 0;
 }
 
 .chat-avatar {
     width: 40px;
     height: 40px;
 
-    flex-shrink: 0;
+    min-width: 40px;
 
     border-radius: 50%;
 
     background: #292929;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
+}
+
+.chat-user-info {
+    min-width: 0;
+
+    overflow: hidden;
 }
 
 .chat-header h2 {
     margin: 0;
 
     font-size: 17px;
-}
 
-.chat-user-info {
-    min-width: 0;
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
 #chat-status {
@@ -546,34 +590,46 @@ button {
 #messages {
     flex: 1;
 
+    width: 100%;
+
     min-width: 0;
     min-height: 0;
 
-    width: 100%;
-
     overflow-y: auto;
 
-    padding: 25px;
+    padding: 25px 6%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
 }
 
 .message {
-    max-width: 70%;
+    position: relative;
 
-    padding: 10px 13px;
+    width: fit-content;
 
-    margin-bottom: 9px;
+    max-width: 65%;
+
+    padding: 10px 14px;
 
     background: #252525;
 
     border-radius: 14px;
 
-    width: fit-content;
-
     word-break: break-word;
+
+    font-size: 15px;
+
+    line-height: 1.4;
+
+    flex-shrink: 0;
 }
 
 .message.mine {
-    margin-left: auto;
+    align-self: flex-end;
 
     background: #444;
 
@@ -581,6 +637,8 @@ button {
 }
 
 .message:not(.mine) {
+    align-self: flex-start;
+
     border-bottom-left-radius: 4px;
 }
 
@@ -639,19 +697,27 @@ button {
 .message-box {
     width: 100%;
 
-    flex-shrink: 0;
+    min-height: 70px;
+
+    padding: 15px 6%;
+
+    border-top: 1px solid #292929;
+
+    background: #0b0b0b;
 
     display: flex;
 
+    align-items: center;
+
     gap: 10px;
 
-    padding: 15px;
-
-    border-top: 1px solid #292929;
+    flex-shrink: 0;
 }
 
 .message-box input {
     flex: 1;
+
+    width: auto;
 
     min-width: 0;
 
@@ -662,6 +728,8 @@ button {
     width: 52px;
 
     min-width: 52px;
+
+    height: 48px;
 
     background: white;
 
@@ -681,9 +749,11 @@ button {
     position: absolute;
 
     right: 10px;
+
     top: 12px;
 
     min-width: 20px;
+
     height: 20px;
 
     padding: 0 6px;
@@ -699,6 +769,7 @@ button {
     font-weight: bold;
 
     align-items: center;
+
     justify-content: center;
 }
 
@@ -708,18 +779,21 @@ button {
 
 
 /* =========================
-   MOBILE / IPAD
+   TABLET / IPAD / MOBILE
 ========================= */
 
 @media (max-width: 700px) {
 
     .sidebar {
         width: 100%;
+
         min-width: 100%;
     }
 
     .chat {
         display: none;
+
+        width: 100%;
     }
 
     .app.chat-open .sidebar {
@@ -728,6 +802,8 @@ button {
 
     .app.chat-open .chat {
         display: flex;
+
+        width: 100%;
     }
 
     .back-button {
@@ -751,6 +827,10 @@ button {
     }
 
     .chat-header {
+        height: 64px;
+
+        min-height: 64px;
+
         padding: 10px 15px;
     }
 
@@ -760,9 +840,13 @@ button {
 
     .message {
         max-width: 82%;
+
+        font-size: 15px;
     }
 
     .message-box {
+        min-height: 64px;
+
         padding: 10px;
     }
 
@@ -771,6 +855,19 @@ button {
     }
 
     .message-box button {
+        width: 50px;
+
         min-width: 50px;
+
+        height: 44px;
+    }
+
+    .notify-button {
+        width: 36px;
+
+        min-width: 36px;
+
+        height: 36px;
     }
 }
+```
