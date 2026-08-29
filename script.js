@@ -1123,7 +1123,7 @@ const isMine =
             document.createElement("button");
 
         deleteButton.textContent =
-            "Delete";
+            "🗑️";
 
         deleteButton.className =
             "delete-message";
