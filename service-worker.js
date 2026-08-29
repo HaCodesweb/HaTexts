@@ -1,3 +1,4 @@
+```javascript
 // =========================
 // PUSH NOTIFICATIONS
 // =========================
@@ -7,11 +8,9 @@ self.addEventListener("push", event => {
     let data = {};
 
     try {
-
         data = event.data
             ? event.data.json()
             : {};
-
     } catch (error) {
 
         console.error(
@@ -22,16 +21,14 @@ self.addEventListener("push", event => {
         data = {};
     }
 
-
     const title =
         data.title || "HaTexts";
-
 
     const options = {
 
         body:
             data.body ||
-            "You have a new notification.",
+            "You have a new message.",
 
         icon:
             "/HaTexts/favicon.png",
@@ -40,28 +37,22 @@ self.addEventListener("push", event => {
             "/HaTexts/favicon.png",
 
         tag:
-            data.tag ||
-            "hatexts-notification",
+            data.tag || "hatextexts-message",
 
         renotify:
             true,
 
         data: {
-
             url:
-                data.url ||
-                "/HaTexts/"
+                data.url || "/HaTexts/"
         }
     };
 
-
     event.waitUntil(
-
         self.registration.showNotification(
             title,
             options
         )
-
     );
 });
 
@@ -76,11 +67,9 @@ self.addEventListener(
 
         event.notification.close();
 
-
         const url =
             event.notification.data?.url ||
             "/HaTexts/";
-
 
         event.waitUntil(
 
@@ -89,44 +78,24 @@ self.addEventListener(
                     type: "window",
                     includeUncontrolled: true
                 })
-                .then(
-                    clientList => {
+                .then(windowClients => {
 
-                        // If HaTexts is already open,
-                        // focus it instead of opening
-                        // another tab.
-
-                        for (
-                            const client
-                            of clientList
-                        ) {
-
-                            if (
-                                client.url.includes(
-                                    "/HaTexts/"
-                                ) &&
-                                "focus" in client
-                            ) {
-
-                                return client.focus();
-                            }
-                        }
-
-
-                        // Otherwise open HaTexts
+                    // Try to focus the existing HaTexts tab
+                    for (const client of windowClients) {
 
                         if (
-                            clients.openWindow
+                            client.url.includes("/HaTexts/") &&
+                            "focus" in client
                         ) {
 
-                            return clients.openWindow(
-                                url
-                            );
+                            return client.focus();
                         }
-
                     }
-                )
 
+                    // Otherwise open HaTexts
+                    return clients.openWindow(url);
+                })
         );
     }
 );
+```
