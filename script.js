@@ -1501,12 +1501,18 @@ checkUser();
 // SERVICE WORKER
 // =========================
 
+// =========================
+// SERVICE WORKER
+// =========================
+
 async function registerServiceWorker() {
 
     if (!("serviceWorker" in navigator)) {
+
         console.error(
             "Service workers are not supported."
         );
+
         return;
     }
 
@@ -1528,75 +1534,135 @@ async function registerServiceWorker() {
             "Service worker registration failed:",
             error
         );
+
     }
 }
 
+
+// Register service worker
+registerServiceWorker();
+
+
 // =========================
-// NOTIFICATION PERMISSION
+// NOTIFICATION BUTTON
 // =========================
 
-async function requestNotificationPermission() {
-
-    if (!("Notification" in window)) {
-
-        console.error(
-            "This browser does not support notifications."
-        );
-
-        return;
-    }
-
-    console.log(
-        "CURRENT NOTIFICATION PERMISSION:",
-        Notification.permission
-    );
-
-    if (
-        Notification.permission ===
-        "default"
-    ) {
-
-        const permission =
-            await Notification.requestPermission();
+notifyFriendButton.addEventListener(
+    "click",
+    async () => {
 
         console.log(
-            "NOTIFICATION PERMISSION RESULT:",
-            permission
+            "🔔 NOTIFY BUTTON CLICKED"
         );
 
-    } else {
 
-        console.log(
-            "NOTIFICATION PERMISSION ALREADY SET:",
-            Notification.permission
-        );
+        // Check browser support
+
+        if (!("Notification" in window)) {
+
+            alert(
+                "This browser does not support notifications."
+            );
+
+            return;
+        }
+
+
+        // Check permission
+
+        if (
+            Notification.permission ===
+            "default"
+        ) {
+
+            console.log(
+                "Requesting notification permission..."
+            );
+
+            const permission =
+                await Notification.requestPermission();
+
+            console.log(
+                "NOTIFICATION PERMISSION:",
+                permission
+            );
+
+            if (
+                permission !==
+                "granted"
+            ) {
+
+                console.log(
+                    "Notification permission was not granted."
+                );
+
+                return;
+            }
+        }
+
+
+        // Permission denied
+
+        if (
+            Notification.permission !==
+            "granted"
+        ) {
+
+            console.log(
+                "Notification permission is not granted."
+            );
+
+            alert(
+                "Please allow notifications in your browser settings."
+            );
+
+            return;
+        }
+
+
+        // Get service worker
+
+        try {
+
+            const registration =
+                await navigator.serviceWorker.ready;
+
+
+            // Show notification
+
+            await registration.showNotification(
+                "School Chat",
+                {
+                    body:
+                        "This is a test notification 🔔",
+
+                    icon:
+                        "/HaTexts/favicon.png",
+
+                    badge:
+                        "/HaTexts/favicon.png",
+
+                    tag:
+                        "school-chat-test",
+
+                    renotify:
+                        true
+                }
+            );
+
+
+            console.log(
+                "🔔 TEST NOTIFICATION SENT"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Could not show notification:",
+                error
+            );
+
+        }
+
     }
-}
-
-registerServiceWorker().then(() => {
-    requestNotificationPermission();
-});
-
-
-
-
-// =========================
-// TEST NOTIFICATION
-// =========================
-
-notifyFriendButton.addEventListener("click", async () => {
-
-    console.log("🔔 NOTIFY BUTTON CLICKED");
-
-    if (Notification.permission !== "granted") {
-        console.log("Notification permission is not granted.");
-        return;
-    }
-
-    new Notification("School Chat", {
-        body: "This is a test notification 🔔",
-        icon: "/HaTexts/favicon.png"
-    });
-
-    console.log("🔔 TEST NOTIFICATION SENT");
-});
+);
