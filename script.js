@@ -1063,9 +1063,11 @@ console.log("LOAD MESSAGES RUNNING");
         "";
 
 
-    data.forEach(
-        displayMessage
-    );
+    console.log("MESSAGES FROM DATABASE:", data);
+
+    data.forEach(message => {
+        displayMessage(message);
+});
 }
 
 
