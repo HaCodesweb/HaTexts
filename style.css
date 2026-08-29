@@ -732,3 +732,51 @@ button {
 .notify-button:active {
     transform: scale(0.95);
 }
+
+
+/* =========================
+   CHAT LAYOUT FIX
+========================= */
+
+.chat {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-window {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.chat-user-info {
+    min-width: 0;
+}
+
+#messages {
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.message-box {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+}
+
+#message-input {
+    flex: 1;
+    min-width: 0;
+}
