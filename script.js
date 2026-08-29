@@ -1612,3 +1612,24 @@ async function testNotification() {
 }
 
 testNotification();
+
+// =========================
+// TEST NOTIFICATION
+// =========================
+
+notifyFriendButton.addEventListener("click", async () => {
+
+    console.log("NOTIFY BUTTON CLICKED");
+
+    if (Notification.permission !== "granted") {
+        console.log("Notification permission is not granted.");
+        return;
+    }
+
+    new Notification("School Chat", {
+        body: "This is a test notification 🔔",
+        icon: "/HaTexts/favicon.png"
+    });
+
+    console.log("TEST NOTIFICATION SENT");
+});
