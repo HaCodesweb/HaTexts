@@ -1619,7 +1619,7 @@ testNotification();
 
 notifyFriendButton.addEventListener("click", async () => {
 
-    console.log("NOTIFY BUTTON CLICKED");
+    console.log("🔔 NOTIFY BUTTON CLICKED");
 
     if (Notification.permission !== "granted") {
         console.log("Notification permission is not granted.");
@@ -1631,5 +1631,5 @@ notifyFriendButton.addEventListener("click", async () => {
         icon: "/HaTexts/favicon.png"
     });
 
-    console.log("TEST NOTIFICATION SENT");
+    console.log("🔔 TEST NOTIFICATION SENT");
 });
