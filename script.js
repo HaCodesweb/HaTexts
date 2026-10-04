@@ -150,19 +150,46 @@ signupButton.addEventListener(
             return;
         }
 
+
+        // Ask Supabase Auth to create the account.
+        // The Before User Created hook on Supabase
+        // will automatically check allowed_users.
+
         const { error } =
             await supabase.auth.signUp({
                 email,
                 password
             });
 
+
         if (error) {
 
-            authMessage.textContent =
-                error.message;
+            console.error(
+                "Signup error:",
+                error
+            );
+
+
+            // This is the message returned by
+            // our Supabase signup hook.
+
+            if (
+                error.message ===
+                "This email has not been approved yet."
+            ) {
+
+                authMessage.textContent =
+                    "This email has not been approved yet.";
+
+            } else {
+
+                authMessage.textContent =
+                    error.message;
+            }
 
             return;
         }
+
 
         authMessage.textContent =
             "Account created! Check your email.";
